@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game RPS</title>
+        <style>
+            * {
+                margin: 0;
+                background-color: black;
+                color: white;
+                box-sizing: border-box;
+            }
+
+            header {
+                color: firebrick;
+                background-color: bisque;
+                text-align: center;
+                padding: 30px;
+                font-size: 35px;
+            }
+
+            header > h6 {
+                text-align: center;
+                background-color: bisque;
+                color: black;
+            }
+
+            .btn {
+                color: black;
+                font-size: 65px;
+                background-color: firebrick;
+            }
+
+            .center {
+                display: flex;
+                justify-content: center;
+                margin-top: 250px;
+            }
+
+            .btn:hover {
+                cursor: pointer;
+                box-shadow: 0px 0px 3px 3px rgb(160, 160, 164);
+            }
+
+            .btn:active {
+                transform: scale(0.8);
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="header">ROCK PAPER SCISSORS<br><h6>It's in the game😆</h6></header>
+        <div class="center">
+            <button class="btn" id="play" type="button">PLAY!</button>
+        </div>
+
+        <script>
+            const play = document.getElementById('play');
+            play.addEventListener('click', function(){window.open('C:/Users/sheen/Desktop/INT web/game.html')})
+        </script>
+    </body>

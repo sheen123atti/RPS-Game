@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Game RPS</title>
+        <style>
+            * {
+                margin: 0;
+                background-color: black;
+                color: white;
+                box-sizing: border-box;
+                /*font-family : */
+            }
+            header {
+                color: firebrick;
+                background-color: bisque;
+                text-align: center;
+                padding: 30px;
+                font-size: 35px;
+            }
+            header > h6 {
+                text-align: center;
+                background-color: bisque;
+                color: black;
+            }
+            .scoreboard {
+                border: 2px solid white;
+                border-radius: 4px;
+                width: 200px;
+                font-size: 50px;
+                margin: 40px auto;
+                text-align: center;
+                position: relative;
+            }
+            .badge {
+                color: white;
+                background-color: firebrick;
+                padding: 2px 10px;
+                font-size: 25px;
+            }
+            #user-label {
+                position:absolute;
+                top: 18px;
+                left: -338.5px;
+            }
+            #computer-label {
+                position:absolute;
+                top: 18px;
+                right: -374px;
+            }
+            .options {
+                display: inline-flex;
+                padding: 10px 0px;
+            }
+            .optionsml1 {
+                margin-left: 175px;
+            }
+            .optionsml2 {
+                margin-left: 180px;
+            }
+            .option1 {
+                padding: 10px 15px;
+                margin: 0px 5px;
+                width: 80px;
+                background-color: aliceblue;
+                font-size: 35px;
+            }
+            .option1hover:hover {
+                background-color: bisque;
+                cursor: pointer;
+                opacity: 0.7;
+            }
+            .trans {
+                padding: 10px 15px;
+                margin: 0px 5px;
+                width: 80px;
+                background-color: bisque;
+                opacity: 0.7;
+                font-size: 35px;
+                transform: scale(1.7); 
+                transition-duration: 2s; 
+            }
+            .results {
+                border: 2px solid white;
+                border-radius: 8px;
+                margin: 20px auto;
+                text-align: center;
+                font-size: 25px;
+                width: 300px;
+            }
+
+            @media only screen and (max-width: 768px){
+                .badge {
+                    font-size: 17px;
+                }
+                #user-label {
+                    left: -40px;
+                }
+                #computer-label {
+                    right: -95px;
+                }
+                .option1 {
+                    width: 70px;
+                    font-size: 30px;
+                }
+                .optionsml1 {
+                    margin-left: auto;
+                }
+                .optionsml2 {
+                    margin-left: auto;
+                }
+                .trans {
+                    width: 70px;
+                    font-size: 30px;
+                    transform: scale(1.5); 
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="header">ROCK PAPER SCISSORS<br><h6>It's in the game😆</h6></header>
+        <div class="scoreboard">
+            <div id="user-label" class="badge">YOU</div>
+            <div id="computer-label" class="badge">COMPUTER</div>
+            <scan id="user-score">0</scan>:<scan id="computer-score">0</scan>
+        </div>
+        <br>
+        <div class="options optionsml1">
+            <button id="rock" class="option1 option1hover" type="button" name="rock" value="rock">✊</button>
+            <button id="paper" class="option1 option1hover" type="button">🖐</button>
+            <button id="scissors" class="option1 option1hover" type="button">✌</button>
+        </div>
+        <p class="options optionsml2">MAKE YOUR CHOICE</p>
+        <div class="options optionsml2">
+            <button id="c_rock" class="option1" type="button" name="rock" value="rock">✊</button>
+            <button id="c_paper" class="option1" type="button">🖐</button>
+            <button id="c_scissors" class="option1" type="button">✌</button>
+        </div>
+        <br><br><br>
+        <div class="results">
+            <p><b><u>RESULT</u></b></p>
+            <p id="result" style="margin: 10px; font-size: 23px;"></p>
+            <p id="result1" style="margin: 10px; font-size: 20px;"></p>
+        </div>
+
+        <script>
+            let userScore = 0;
+            let compScore = 0;
+            const user_score = document.getElementById("user-score");
+            const computer_score = document.getElementById("computer-score");
+            const u_rock = document.getElementById("rock");
+            const u_paper = document.getElementById("paper");
+            const u_scissors = document.getElementById("scissors");
+            const scoreboard_div = document.querySelector(".scoreboard");
+            const result = document.getElementById("result");
+            const result1 = document.getElementById("result1");
+            const c_rock = document.getElementById("c_rock");
+            const c_paper = document.getElementById("c_paper");
+            const c_scissors = document.getElementById("c_scissors");
+            const trans = document.querySelector(".trans");
+            const transInverse = document.querySelector(".transInverse");
+
+            
+            function main() {
+                u_rock.addEventListener("click", () => { game("rock"); large("rock") });
+                u_paper.addEventListener("click", () => { game("paper"); large("paper") });
+                u_scissors.addEventListener("click", () => { game("scissors"); large("scissors") });
+            }
+
+            function large(userChoice) {
+                switch(userChoice) {
+                    case 'rock':
+                        u_rock.classList.add('trans');
+                        setTimeout(function() {
+                        u_rock.classList.remove('trans');},1000);
+                        break;
+                    case 'paper':
+                        u_paper.classList.add('trans');
+                        setTimeout(function() {
+                        u_paper.classList.remove('trans');},1000);
+                        break;
+                    case 'scissors':
+                        u_scissors.classList.add('trans');
+                        setTimeout(function() {
+                        u_scissors.classList.remove('trans');},1000);
+                        break;
+                }
+            }
+
+            function getComputerChoice() {
+                const options = ['rock','paper','scissors'];
+                const random_num = Math.floor(Math.random() * 3);
+                return options[random_num];
+            }
+
+            function win(userChoice, computerChoice) {
+                userScore++;
+                user_score.innerHTML = userScore;
+                computer_score.innerHTML = compScore;
+                result.innerHTML = userChoice + " beats " + computerChoice;
+                result1.innerHTML = "YOU WIN";
+                document.getElementById("result1").style.color = "green";
+            }
+            
+            function lose(userChoice, computerChoice) {
+                compScore++;
+                computer_score.innerHTML = compScore;
+                user_score.innerHTML = userScore;
+                result.innerHTML = userChoice + " loses from " + computerChoice;
+                result1.innerHTML = "YOU LOSE";
+                document.getElementById("result1").style.color = "red";
+            }
+
+            function draw(userChoice, computerChoice ) {
+                result.innerHTML = userChoice + " has no effect on " + computerChoice;
+                result1.innerHTML = "IT'S A DRAW";
+                document.getElementById("result1").style.color = "white";
+            }
+
+            function game(userChoice) {
+                const computerChoice = getComputerChoice();
+                console.log(computerChoice);
+                switch (userChoice + computerChoice) {
+                    case "rockscissors":
+                    case "paperrock":
+                    case "scissorspaper":
+                        win(userChoice, computerChoice);
+                        break;
+                    case "rockpaper":
+                    case "paperscissors":
+                    case "scissorsrock":
+                        lose(userChoice, computerChoice);
+                        break;
+                    case "rockrock":
+                    case "paperpaper":
+                    case "scissorsscissors":
+                        draw(userChoice, computerChoice);
+                        break;
+                }
+                
+                switch(computerChoice) {
+                    case "rock":
+                        c_rock.classList.add('trans');
+                        setTimeout(function() {
+                        c_rock.classList.remove('trans');},1000);
+                        break;
+                    case "paper":
+                        c_paper.classList.add('trans');
+                        setTimeout(function() {
+                        c_paper.classList.remove('trans');},1000);
+                        break;
+                    case "scissors":
+                        c_scissors.classList.add('trans');
+                        setTimeout(function() {
+                        c_scissors.classList.remove('trans');},1000);
+                        break;
+                }
+            }
+            main();
+
+        </script>
+    </body>
+</html>
